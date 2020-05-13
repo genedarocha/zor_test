@@ -1,150 +1,79 @@
-# cypress-cucumber-example
-Initial example of using Cypress with Cucumber.
+This is a simple Cypress Test using Zoro website
 
-There are examples that are part of a Continuous Integration build in the main repo, that also showcase more advanced
-usage, please refer there as well - https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/tree/master/cypress
-
-# Run example tests
-
-```
-npm install
-npm test
-```  
-
-# Tags usage
-
-### Tagging tests
-You can use tags to select which test should run using [cucumber's tag expressions](https://github.com/cucumber/cucumber/tree/master/tag-expressions).
-Keep in mind we are using newer syntax, eg. `'not @foo and (@bar or @zap)'`.
-In order to initialize tests using tags you will have to run cypress and pass TAGS environment variable.
-
-To make things faster and skip cypress opening a browser for every feature file (taking a couple seconds for each one), even the ones we want ignored, we use our own cypress-tags wrapper. It passes all the arguments to cypress, so use it the same way you would use cypress CLI. The only difference is it will first filter out the files we don't care about, based on the tags provided. 
-
-### Examples:
-
-There are a few tagged tests in these files:
-
-[Facebook.feature](https://github.com/TheBrainFamily/cypress-cucumber-example/blob/master/cypress/integration/socialNetworks/Facebook.feature)
-```
-@feature-tag
-Feature: The Facebook
-
-  I want to open a social network page
-
-  @tag-to-include
-  Scenario: Opening a social network page
-    Given I open Facebook page
-    Then I see "Facebook" in the title
-
-  @another-tag-to-include @some-other-tag
-  Scenario: Different kind of opening
-    Given I kinda open Facebook page
-    Then I am very happy
-
-```
+Installing NPM 
+ npm install
+Install Cypress via npm:
+cd /your/project/path
+npm install cypress --save-dev
 
 
-[Twitter.feature](https://github.com/TheBrainFamily/cypress-cucumber-example/blob/master/cypress/integration/socialNetworks/Twitter.feature)
-```
-@feature-tag @twitter-tag
-Feature: The Twitter
 
-  I want to tweet things
+To run a command, you’ll need to prefix each command in order to properly locate the cypress executable.
+$(npm bin)/cypress run
+…or…
+./node_modules/.bin/cypress run
 
-  @tag-to-include
-  Scenario: Opening Twitter
-    Given I open Twitter page
-    Then I see "Twitter" in the title
+1a. Zoro0 and Zoro1 both perform the initial tasks, but Zoro1 goes further and will Login
+using the given login credentials. 
 
-  @another-tag-to-include
-  Scenario: Opening Twitter again
-    Given I open Twitter page
-    Then I see "Twitter" in the title
-```
+BDD scenario for successful login using Zoro1.feature which called uped beforeEach.js,different.js
+openingZoror1.js and enter.js 
 
-###### Simple Example
-  Run ```./node_modules/.bin/cypress-tags run -e TAGS='@feature-tag'``` in this repo. As both `Facebook.feature` and `Twitter.feature` 
-  have `@feature-tag` above the feature name, and `Google.feature` has no tags, the result should be: 
+1b - Standard JavaScript code used, coupled with Cypress Framework. It is a standard page node_module as it 
+navigates to the login page, followed by login details. Code is built with BDD thinking, 
+Cucumber, Feature Files, JavaScript and Cypress Test Framework and is fast.
+
+1c - Non Happy Path. On arriving to the Login Area using Zoro0, there seems to a Cross Browser Scripting error in 
+Cypress. Seemed to have fixed it with error handling on Zero1 Feature. It works fine. 
+
+
+Zoro0 - Had errors with Cross-Browser Issues on Giving part
+- so error handling added on Zoro1
+
+(
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  })
+
+  it('Does not catch script error', () => {
+    Cypress.on('uncaught:exception', (err, runnable) => {
+      throw err
+    })
   
-  ```
-      Spec                                                Tests  Passing  Failing  Pending  Skipped
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔ socialNetworks/Facebook.feature           00:04        2        2        -        -        - │
-  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔ socialNetworks/Twitter.feature            00:05        2        2        -        -        - │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    All specs passed!                           00:09        4        4        -        -        -
-```
+    cy.visit(url);
 
-###### usage of `not`
+)
 
-Run ```./node_modules/.bin/cypress-tags run -e TAGS='not @twitter-tag'``` in this repo. `Facebook.feature` and `Google.feature` will run, as only `Twitter.feature` has the unwanted tag. The result should be: 
+Fixes Error 
 
-```
-      Spec                                                Tests  Passing  Failing  Pending  Skipped
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔ socialNetworks/Facebook.feature           00:05        2        2        -        -        - │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    All specs passed!                           00:05        2        2        -        -        -
-```
+2. Standard Form.
 
-###### usage of `and` 
+  Scenario - Need to ensure all relevant fields are filled in.
+  Scenario - Need to ensure that password conform to all requirements
+  Scenario - Need to ensure any formatted fields like telephone or mobile are correct
+  Scenario - Need to ensure Terms/Conditions is ticketed before accepting records
+  
 
-Run ```./node_modules/.bin/cypress-tags run -e TAGS='@another-tag-to-include and @some-other-tag'``` in this repo. There is only one scenario that has both the tags, in `Facebook.feature`. The result should be:  
+3. The 3m logo not correct on the front page. Sorry, I wish I had more time to find more.
 
-```
-     Spec                                                Tests  Passing  Failing  Pending  Skipped
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔ socialNetworks/Facebook.feature           00:03        1        1        -        -        - │
-  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-    All specs passed!                           00:03        1        1        -        -        -
 
-```
+4. a) When I perform a search for a list of products, then add to the basket, it prompts me to carry
+on. It would be great to get back to previous search list rather than main product, so 
+that I can buy products from my original search.
 
-###### combinations
+b) When I look at the main page, I see adverts, logos, but I don't see a ticker or pages
+showing special offers, or excessive stock, or stock you need to shift because of a newer
+version / upgrade of equipment or stock? 
 
-Keep in mind that order matters and use parentheses wisely. The following commands will yield different results:  
-```./node_modules/.bin/cypress-tags run -e TAGS='@tag-to-include or @another-tag-to-include and not @twitter-tag'```
+c) I know you use cookies, but could not deduce if you can place the top categories for each 
+user so that you can easily sell to them. 
 
-```./node_modules/.bin/cypress-tags run -e TAGS='(@tag-to-include or @another-tag-to-include) and not @twitter-tag'```
 
-The first one will include scenario tagged `@tag-to-include` from the [Twitter.feature](https://github.com/TheBrainFamily/cypress-cucumber-example/blob/master/cypress/integration/socialNetworks/Twitter.feature), while 
-the second one will skip all scenarios from it.
 
-### Smart tagging
-Start your tests without setting any tags. And then put a @focus on the scenario (or scenarios) you want to focus on while development or bug fixing.
 
-For example:
-```gherkin
-Feature: Smart Tagging
-
-  As a cucumber cypress plugin which handles Tags
-  I want to allow people to select tests to run if focused
-  So they can work more efficiently and have a shorter feedback loop
-
-  Scenario: This scenario should not run if @focus is on another scenario
-    Then this unfocused scenario should not run
-
-  @focus
-  Scenario: This scenario is focused and should run
-    Then this focused scenario should run
-
-  @this-tag-affects-nothing
-  Scenario: This scenario should also not run
-    Then this unfocused scenario should not run
-
-  @focus
-  Scenario: This scenario is also focused and also should run
-    Then this focused scenario should run
-```
-
-# Scoped hooks:
-
-Unfortunately, running all tests through GUI causes an unexpected behavior with hooks:
-
-[TheBrainFamily/cypress-cucumber-preprocessor#139](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/issues/139)
-which is an acknowledged bug in cypress itself:
-
-[cypress-io/cypress#3323](https://github.com/cypress-io/cypress/issues/3323)
-
-Our advice is to not use the "run all" in the GUI - which would be slow once you have enough .feature files anyway. Running through cypress run (for CI use) works as described. 
